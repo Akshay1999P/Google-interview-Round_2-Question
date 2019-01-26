@@ -1,37 +1,42 @@
-## Welcome to GitHub Pages
+package com.srpec.jdbc;
+import java.sql.*;
+import java.io.*;
 
-You can use the [editor on GitHub](https://github.com/Akshay1999P/JDBC/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+public class JdbcApp01 {
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Akshay1999P/JDBC/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+	public static void main(String[] args) throws Exception{
+		
+		//Step 1
+        Class.forName("oracle.jdbc.OracleDriver");
+ 
+        //Step 2: Establish connection between java application and database
+        //Connection conn=DriverManager.getConnection("driver url","username","password");
+        
+      Connection conn=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","1999");
+      
+      //Step 3: Create Statement object
+      
+      Statement s=conn.createStatement();
+      
+      BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+      System.out.println("Enter the Table you want to creat in database: ");
+      String table=br.readLine();
+      
+      
+      //Step 4: Create SQL Query
+      
+      String query = "create table "+table+"(Eno number(4) Primary key,Ename varchar2(15),Esal float(5),Eadd varchar2(15))";
+      
+      //Step 5: Execute SQL query
+      
+     // s.executeQuery(query);
+      s.executeUpdate(query);
+      
+      System.out.println(table+" Create SUccessfull in Database");
+      
+      br.close();
+      s.close();
+      conn.close();
+      
+	}
+}
