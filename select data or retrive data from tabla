@@ -1,0 +1,63 @@
+package com.srpec.jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import oracle.jdbc.OracleDriver;
+
+
+//import oracle.jdbc.OracleDriver;
+
+//import oracle.jdbc.driver.OracleDriver;
+
+
+public class JdbcApp03 {
+	
+	public static void main(String[] args) throws Exception {
+		
+		
+		//Create the Resources
+		Connection con = null;
+		Statement st= null;
+		ResultSet rs = null;
+		
+		try {
+			
+			OracleDriver driver = new OracleDriver();
+			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","1999");
+			st=con.createStatement();
+			String query="select * from employee";
+			rs =st.executeQuery(query);
+			System.out.println("Eno\tEname\tEsal\tEadd");
+			
+			while(rs.next()) {
+				int Eno=rs.getInt("Eno");
+				String Ename=rs.getString("Ename");
+				float Esal=rs.getFloat("Esal");
+				String Eadd=rs.getString("Eadd");
+				
+				System.out.println(Eno+"\t"+Ename+"\t"+Esal+"\t"+Eadd);
+				
+		
+			}
+			
+		}
+		
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		try {
+			con.close();
+			st.close();
+			rs.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+}
