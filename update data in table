@@ -1,0 +1,82 @@
+package com.srpec.jdbc;
+
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+
+public class JdbcApp04 {
+
+	public static void main(String[] args) throws Exception {
+		
+		//step 1
+		
+		Class.forName("oracle.jdbc.OracleDriver");
+		
+		//step 2
+		
+		Connection connn=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","1999");
+		
+		//step 3
+		
+		Statement st= connn.createStatement();
+		
+		BufferedReader br2=new BufferedReader(new InputStreamReader(System.in));
+		
+		while(true) {
+			System.out.print("Enter the Employee ID whose data want to update:- ");
+			int Eno=Integer.parseInt(br2.readLine());
+			
+			String query3="select Eno,Ename,Esal,Eadd from employee"+" where Eno=("+Eno+")";
+			
+			ResultSet rs = st.executeQuery(query3);
+			
+			System.out.println("Your data is....");
+			
+			if(rs.next()) {
+				System.out.println(rs.getInt("Eno")+"\t"+rs.getString("Ename")+"\t"+rs.getFloat("Esal")+"\t"+rs.getString("Eadd"));
+			}
+			
+			else {
+				System.out.println("there is no data in database");
+			}
+			
+			System.out.println("Enter the new data to update");
+			System.out.print("Enter the new Eno:- ");
+			int Eno1=Integer.parseInt(br2.readLine());
+			
+			System.out.print("Enter the new Ename:- ");
+			String Ename=br2.readLine();
+			
+			System.out.print("Enter the new Esal:- ");
+			float Esal=Float.parseFloat(br2.readLine());
+			
+			System.out.print("Enter the new Eadd:- ");
+			String Eadd=br2.readLine();
+			
+			String query2="update employee set Eno="+Eno1+","+"Ename='"+Ename+"',"+"Esal="+Esal+","+"Eadd='"+Eadd+"' where Eno=("+Eno+")";
+			
+			st.executeUpdate(query2);
+			System.out.println("Data Updated Successfully");
+			System.out.println("You want to update another data [Yes/No]???");
+			String option=br2.readLine();
+			
+			if(option.equalsIgnoreCase("yes")) {
+				continue;
+			}
+			else {
+				System.out.println("Ok Thank you");
+				break;
+			}
+		}
+		br2.close();
+		st.close();
+		connn.close();
+			}
+		
+	}
+	
