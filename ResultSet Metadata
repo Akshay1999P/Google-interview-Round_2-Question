@@ -1,0 +1,47 @@
+package com.akshay.jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.Statement;
+
+public class Ac5 {
+	
+	public static void main(String []args) throws Exception{
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");  
+			Connection con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","1999");  
+			  
+			Statement s=con.createStatement();
+			ResultSet rs=s.executeQuery("select * from student");  
+			
+			ResultSetMetaData rsmd=rs.getMetaData();
+			int count=rsmd.getColumnCount();
+			
+			for(int i=1;i<=count;i++) {
+				
+				System.out.print(rsmd.getColumnName(i)+"\t");
+			}
+			System.out.print("\n");
+			for(int i=1;i<=count;i++) {
+				System.out.print(rsmd.getColumnTypeName(i)+"\t");
+			}
+			System.out.println();
+			while(rs.next()) {
+				for(int i=1;i<=count;i++) {
+				System.out.print(rs.getString(i)+"\t");
+			}
+				System.out.println();
+			}
+			con.close();  
+			}
+			
+			catch(Exception e){ 
+				System.out.println(e);
+				}  
+		
+	}
+
+}
