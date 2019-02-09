@@ -1,0 +1,36 @@
+package com.srpec.jdbc;
+
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+
+public class App06 {
+
+	public static void main(String[] args) throws Exception{
+
+		//try with resources introduced in java 1.7
+		
+		try
+		(
+			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","1999");
+				){
+			DatabaseMetaData dbm = con.getMetaData();
+			System.out.println("Database major version:- "+dbm.getDatabaseMajorVersion());
+			System.out.println("Database Nimor Version:- "+dbm.getDatabaseMinorVersion());
+			System.out.println("Product name:- "+dbm.getDatabaseProductName());
+			System.out.println("Product version:- "+dbm.getDatabaseProductVersion());
+			System.out.println("Driver name:- "+dbm.getDriverName());
+			System.out.println("Driver version:- "+dbm.getDriverVersion());
+			System.out.println("Url:- "+dbm.getURL());
+			System.out.println("Username:- "+dbm.getUserName());
+			System.out.println("String Functions:- "+dbm.getStringFunctions());
+			System.out.println("Numeric Function:- "+dbm.getNumericFunctions());
+		}
+		
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}
